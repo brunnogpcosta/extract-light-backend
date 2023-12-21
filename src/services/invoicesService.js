@@ -36,4 +36,19 @@ async function persistData(invoices) {
   return result;
 }
 
-module.exports = { persistData };
+async function getAllInvoices(clientNumberFilter) {
+  let query = {};
+  
+  if (clientNumberFilter) {
+    query = {
+      where: {
+        clientNumber: clientNumberFilter,
+      },
+    };
+  }
+
+  const invoices = await prisma.invoices.findMany(query);
+  return invoices;
+}
+
+module.exports = { persistData, getAllInvoices };
