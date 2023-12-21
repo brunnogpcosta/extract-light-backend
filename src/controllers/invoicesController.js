@@ -26,4 +26,14 @@ async function getInvoices(req, res) {
 }
 
 
-module.exports = { processPDF, getInvoices };
+async function downloadInvoice(req, res) {
+  try {
+    const fileName = req.params.fileName;
+    await pdfParser.downloadPDF(fileName, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Erro ao efetuar download do PDF.' });
+  }
+}
+
+module.exports = { processPDF, getInvoices, downloadInvoice };
