@@ -10,6 +10,7 @@ datasource db {
 
 model invoices{
   id String @id @default(uuid())
+  fileName String
   clientNumber String
   period String
   eletricEnergyQty Float

@@ -15,6 +15,7 @@ async function persistData(invoices) {
     if (!existingInvoice) {
       const newInvoice = await prisma.invoices.create({
         data: {
+          fileName: data.fileName,
           clientNumber: data.clientNumber,
           period: data.period,
           eletricEnergyQty: data.eletricEnergy.qty,

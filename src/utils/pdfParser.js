@@ -15,6 +15,7 @@ async function extractDataFromPDF() {
       const data = pdfData.text;
 
       let payloadEnergy = {
+        fileName: "",
         clientNumber: "",
         period: "",
         eletricEnergy: {
@@ -31,6 +32,9 @@ async function extractDataFromPDF() {
         },
         publicContribute: 0,
       };
+
+      // File Name
+      payloadEnergy.fileName = fn;
 
       // Eletric Energy
       const regexEletricEnergy = /Energia Elétrica.*?(\d+)\s+(\d+,\d+)/;
