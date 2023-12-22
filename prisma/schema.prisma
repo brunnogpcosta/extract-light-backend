@@ -12,6 +12,7 @@ model invoices{
   id String @id @default(uuid())
   fileName String
   clientNumber String
+  invoiceDate DateTime
   period String
   eletricEnergyQty Float
   eletricEnergyAmount Float

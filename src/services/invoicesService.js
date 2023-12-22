@@ -18,6 +18,7 @@ async function persistData(invoices) {
           fileName: data.fileName,
           clientNumber: data.clientNumber,
           period: data.period,
+          invoiceDate: data.invoiceDate,
           eletricEnergyQty: data.eletricEnergy.qty,
           eletricEnergyAmount: data.eletricEnergy.amount,
           eletricEnergyWithoutICMSQty: data.eletricEnergyWithoutICMS.qty,
@@ -25,6 +26,7 @@ async function persistData(invoices) {
           compensedEletricEnergyQty: data.compensedEletricEnergy.qty,
           compensedEletricEnergyAmount: data.compensedEletricEnergy.amount,
           publicContribute: data.publicContribute,
+          
         },
       });
 
@@ -37,13 +39,22 @@ async function persistData(invoices) {
   return result;
 }
 
-async function getAllInvoices(clientNumberFilter) {
+async function getAllInvoices(clientNumberFilter, orderByField = 'invoiceDate', sortOrder = 'asc') {
   let query = {};
-  
+
   if (clientNumberFilter) {
     query = {
       where: {
         clientNumber: clientNumberFilter,
+      },
+      orderBy: {
+        [orderByField]: sortOrder,
+      },
+    };
+  } else {
+    query = {
+      orderBy: {
+        [orderByField]: sortOrder,
       },
     };
   }
@@ -51,5 +62,6 @@ async function getAllInvoices(clientNumberFilter) {
   const invoices = await prisma.invoices.findMany(query);
   return invoices;
 }
+
 
 module.exports = { persistData, getAllInvoices };

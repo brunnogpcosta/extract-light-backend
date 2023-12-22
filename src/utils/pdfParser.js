@@ -1,6 +1,18 @@
 const fs = require("fs");
 const pdf = require("pdf-parse");
 const path = require("path");
+const { parse, format } = require('date-fns');
+const { ptBR } = require('date-fns/locale');
+
+function parseMonthYearString(monthYearString) {
+  const year = monthYearString.slice(-2);
+  const fullYear = `20${year}`;
+  const dateString = `01 ${monthYearString.replace(year, fullYear)}`;
+  const parsedDate = parse(dateString, 'dd MMM/yyyy', new Date(), { locale: ptBR });
+
+  return parsedDate;
+}
+
 
 async function extractDataFromPDF() {
   const filenames = fs.readdirSync("invoices");
@@ -17,6 +29,7 @@ async function extractDataFromPDF() {
       let payloadEnergy = {
         fileName: "",
         clientNumber: "",
+        invoiceDate: "",
         period: "",
         eletricEnergy: {
           qty: 0,
@@ -35,6 +48,8 @@ async function extractDataFromPDF() {
 
       // File Name
       payloadEnergy.fileName = fn;
+
+
 
       // Eletric Energy
       const regexEletricEnergy = /Energia Elétrica.*?(\d+)\s+(\d+,\d+)/;
@@ -89,6 +104,9 @@ async function extractDataFromPDF() {
 
       if (matchPeriod) {
         payloadEnergy.period = matchPeriod[1];
+
+        // Invoice date
+        payloadEnergy.invoiceDate = parseMonthYearString(matchPeriod[1])
       }
 
       // clientNumber
