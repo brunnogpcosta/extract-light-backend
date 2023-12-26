@@ -22,6 +22,3 @@ Bem-vindo à API ExtractLight, que é uma parte do teste prático para o cargo d
 - `GET /invoices?clientNumber`: Retorna a lista de faturas disponíveis para um cliente.
 - `GET /download/:mes`: faz o download do documento a partir do nome do arquivo.
 
-## Testes
-
-Os testes unitários foram elaborados usando a biblioteca Vitest. Execute os testes com `npm test`.
